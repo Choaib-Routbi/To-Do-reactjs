@@ -82,3 +82,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.toggleModeBtn{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

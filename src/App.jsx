@@ -11,10 +11,30 @@ function App() {
   const [newTask, setNewTask] = useState('');
   const [priority, setPriority] = useState('normal');
 
+    ////////////////////switchMode///////////////////////////////////
+   const [bgDark, setBgDark] = useState(() => {
+      const saved = localStorage.getItem('bgDark');
+      return saved ? JSON.parse(saved) : true; // default to true
+    });
+  
+  
+   useEffect(() => {
+      localStorage.setItem('tasks', JSON.stringify(inputValue));
+      localStorage.setItem('bgDark', JSON.stringify(bgDark));
+      document.body.style.backgroundColor = bgDark ? 'black' : 'aliceblue';
+      document.body.style.color = bgDark ? 'white' : 'black';
+    }, [inputValue,bgDark]);
+  
+    const ToggleMode = () =>{
+      setBgDark((prev) => !prev)
+      console.log("bg btn clicked");
+    }
+  ///////////////////////////////////////////////////////////
+  
   // Save tasks to localStorage whenever inputValue changes
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(inputValue));
-  }, [inputValue]);
+  }, [inputValue,bgDark]);
 
   const clickToAdd = () => {
     if (newTask.trim() === '') return; // Prevent adding empty tasks
@@ -54,6 +74,10 @@ function App() {
         boxSizing: 'border-box'
       }}
     >
+      {
+      document.body.style.backgroundColor = bgDark ? <button className='toggleModeBtn' onClick={ToggleMode}>dark</button> : <button className='toggleModeBtn' onClick={ToggleMode}>light</button>
+
+      }
       <h2 className='title'>To Do List</h2>
       <div
         style={{
